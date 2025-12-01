@@ -66,12 +66,23 @@ const partSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    lowStock: {
+      type: Number,
+      required: true,
+      default: 3,
+    },
   },
   {
     timestamps: true,
     versionKey: false,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
+
+partSchema.virtual("isLowStock").get(function () {
+  return this.quantity <= this.lowStock;
+});
 
 const Part = mongoose.model("Part", partSchema);
 
