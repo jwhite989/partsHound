@@ -51,14 +51,10 @@ export const updatePart = async (req, res) => {
     if (req.body.supplier !== undefined) update.supplier = req.body.supplier;
     if (req.body.lowStock !== undefined) update.lowStock = req.body.lowStock;
 
-    const updateData = await Part.findOneAndUpdate(
-      { _id: req.params.id },
-      update,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const updateData = await Part.findByIdAndUpdate(req.params.id, update, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!updateData) {
       return res
@@ -66,6 +62,20 @@ export const updatePart = async (req, res) => {
         .json(`message: Could not find part with id: ${req.params.id}`);
     }
     res.status(200).json(updateData);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deletePart = async (req, res) => {
+  const partToDelete = await Part.findByIdAndDelete(req.params.id);
+  try {
+    if (!partToDelete) {
+      return res
+        .status(404)
+        .json(`message: Could not find part with id: ${req.params.id}`);
+    }
+    res.status(204).send();
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

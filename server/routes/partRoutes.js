@@ -4,6 +4,7 @@ import {
   getSinglePart,
   createPart,
   updatePart,
+  deletePart,
 } from "../controllers/partController.js";
 
 const router = Router();
@@ -12,5 +13,6 @@ router.get("/", getAllParts);
 router.get("/:id", getSinglePart);
 router.post("/", createPart);
 router.put("/:id", updatePart);
+router.delete("/:id", deletePart);
 
 export default router;
