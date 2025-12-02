@@ -39,17 +39,23 @@ export const createPart = async (req, res) => {
 
 export const updatePart = async (req, res) => {
   try {
+    const allowedFields = [
+      "partNumber",
+      "name",
+      "manufacturer",
+      "quantity",
+      "unitPrice",
+      "category",
+      "supplier",
+      "lowStockThreshold",
+    ];
+
     const update = {};
-    if (req.body.partNumber !== undefined)
-      update.partNumber = req.body.partNumber;
-    if (req.body.name !== undefined) update.name = req.body.name;
-    if (req.body.manufacturer !== undefined)
-      update.manufacturer = req.body.manufacturer;
-    if (req.body.quantity !== undefined) update.quantity = req.body.quantity;
-    if (req.body.unitPrice !== undefined) update.unitPrice = req.body.unitPrice;
-    if (req.body.category !== undefined) update.category = req.body.category;
-    if (req.body.supplier !== undefined) update.supplier = req.body.supplier;
-    if (req.body.lowStock !== undefined) update.lowStock = req.body.lowStock;
+    for (const field of allowedFields) {
+      if (req.body[field] !== undefined) {
+        update[field] = req.body[field];
+      }
+    }
 
     const updateData = await Part.findByIdAndUpdate(req.params.id, update, {
       new: true,
