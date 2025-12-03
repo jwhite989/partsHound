@@ -1,4 +1,5 @@
 import Part from "../models/Part.js";
+import User from "../models/User.js";
 
 export const getAllParts = async (req, res) => {
   try {
@@ -30,7 +31,16 @@ export const createPart = async (req, res) => {
       return res.status(400).json({ message: "Request body cannot be empty" });
     }
 
-    const newPart = await Part.create(req.body);
+    // Get user data from authenticated request
+    const user = await User.findById(req.userId);
+
+    // Add the user who created the part
+    const partData = {
+      ...req.body,
+      addedBy: user?.name || req.body.userName || "Unknown User",
+    };
+
+    const newPart = await Part.create(partData);
     res.status(201).json(newPart);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -56,6 +66,12 @@ export const updatePart = async (req, res) => {
         update[field] = req.body[field];
       }
     }
+
+    // Get user data from authenticated request
+    const user = await User.findById(req.userId);
+    // Track who modified the part
+    update.lastModifiedBy =
+      user?.name || req.body.lastModifiedBy || "Unknown User";
 
     const updateData = await Part.findByIdAndUpdate(req.params.id, update, {
       new: true,

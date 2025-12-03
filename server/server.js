@@ -3,12 +3,14 @@ import "dotenv/config";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import partRoutes from "./routes/partRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 8000;
 
 app.use(cors());
 app.use(express.json());
+app.use("/api/auth", authRoutes);
 app.use("/api/parts", partRoutes);
 
 const startServer = async () => {

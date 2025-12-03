@@ -71,6 +71,14 @@ const partSchema = new mongoose.Schema(
       required: true,
       default: 3,
     },
+    addedBy: {
+      type: String,
+      required: true,
+    },
+    lastModifiedBy: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true,
