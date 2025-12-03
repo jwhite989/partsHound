@@ -7,7 +7,7 @@ function App() {
 
   const getAllParts = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/parts");
+      const res = await fetch("/api/parts");
       if (!res.ok) throw new Error("Failed to fetch parts");
       const data = await res.json();
       setParts(data);
