@@ -1,4 +1,4 @@
-export default function PartsTable({ parts }) {
+export default function PartsTable({ parts, onEdit, onDelete }) {
   return (
     <div className="bg-white shadow-xl rounded-lg border border-slate-200 overflow-hidden overflow-x-auto">
       <table className="w-full border-collapse">
@@ -12,6 +12,9 @@ export default function PartsTable({ parts }) {
             <th className="py-4 px-6">Category</th>
             <th className="py-4 px-6">Supplier</th>
             <th className="py-4 px-6 text-center">Low Stock</th>
+            <th className="py-4 px-6">Added By</th>
+            <th className="py-4 px-6">Last Modified By</th>
+            <th className="py-4 px-6 text-center">Actions</th>
           </tr>
         </thead>
 
@@ -58,6 +61,43 @@ export default function PartsTable({ parts }) {
                 >
                   {p.lowStock}
                 </span>
+              </td>
+
+              <td className="py-4 px-6 text-sm text-slate-600">
+                <span className="inline-block bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-medium">
+                  {p.addedBy}
+                </span>
+              </td>
+
+              <td className="py-4 px-6 text-sm text-slate-600">
+                {p.lastModifiedBy ? (
+                  <span className="inline-block bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-medium">
+                    {p.lastModifiedBy}
+                  </span>
+                ) : (
+                  <span className="text-slate-400">—</span>
+                )}
+              </td>
+
+              <td className="py-4 px-6 text-center">
+                <div className="flex gap-2 justify-center">
+                  <button
+                    onClick={() => onEdit(p._id || p.id)}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs font-medium transition-colors"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (window.confirm(`Delete ${p.name}?`)) {
+                        onDelete(p._id || p.id);
+                      }
+                    }}
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs font-medium transition-colors"
+                  >
+                    Delete
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

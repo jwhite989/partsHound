@@ -22,11 +22,19 @@ const CATEGORIES = [
   "other",
 ];
 
-export default function AddPartForm({ formData, onChange, onSubmit }) {
+export default function AddPartForm({
+  formData,
+  onChange,
+  onSubmit,
+  onReset,
+  isEditing = false,
+}) {
   return (
     <div className="mt-12 mb-8">
       <div className="bg-white shadow-xl rounded-lg border border-slate-200 p-8">
-        <h2 className="text-2xl font-bold text-slate-900 mb-6">Add New Part</h2>
+        <h2 className="text-2xl font-bold text-slate-900 mb-6">
+          {isEditing ? "Edit Part" : "Add New Part"}
+        </h2>
         <form
           onSubmit={onSubmit}
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
@@ -123,13 +131,14 @@ export default function AddPartForm({ formData, onChange, onSubmit }) {
               type="submit"
               className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105"
             >
-              Add Part
+              {isEditing ? "Save Changes" : "Add Part"}
             </button>
             <button
-              type="reset"
+              type="button"
+              onClick={onReset}
               className="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold py-3 px-6 rounded-lg transition-all duration-200"
             >
-              Clear
+              {isEditing ? "Cancel" : "Clear"}
             </button>
           </div>
         </form>
