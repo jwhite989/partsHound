@@ -47,7 +47,7 @@ export const updatePart = async (req, res) => {
       "unitPrice",
       "category",
       "supplier",
-      "lowStockThreshold",
+      "lowStock",
     ];
 
     const update = {};
